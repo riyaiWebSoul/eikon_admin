@@ -6,6 +6,7 @@ import BackHome from './BackHome';
 
 import NotFoundPage from './NotFound';
 import BackendDashboard from './BackendDashboard';
+import BackHomePage from './BackHomePage';
 const isAuthenticated = true;
 export default function BackEndRouter() {
 

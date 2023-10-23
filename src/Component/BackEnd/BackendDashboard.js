@@ -37,7 +37,7 @@ const BackendDashboard = () => {
   const handleLogout = () => {
     // Implement your logout logic here
     // For now, just navigate to "/backHome" as an example
-    navigate("/backend");
+    navigate("/");
   };
 
   return (
