@@ -1,11 +1,11 @@
 import React, {   useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 
 
 function BackHomePage() {
   // Initialize the React Router navigation hook
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   // Function to navigate back to the dashboard page
   // const handleGoBack = () => {
@@ -54,9 +54,9 @@ function BackHomePage() {
   const handleGetImagesList = async () => {
     try {
       // Make a GET request to retrieve the list of images
-      const imagesListResponse = await axios.get('https://eikon-api.onrender.com/listImages');
+      const imagesListResponse = await axios.get('https://eikon-api.onrender.com/imageUpload');
       const list = imagesListResponse.data;
-
+console.log(list)
       // Update the state variable with the retrieved list of images
       setImageList(list.images);
     } catch (error) {
@@ -261,7 +261,7 @@ const handleUploadImages=async()=>{
                         data-image-name={item} // Add data-image-name attribute
                       >
                         <img
-                          src={`https://eikon-api.onrender.com/imageUploads/${item}`}
+                          src={`https://eikon-api.onrender.com/imageUpload/${item}`}
                           alt={`${index}`}
                           className="card-img-top "
                         />

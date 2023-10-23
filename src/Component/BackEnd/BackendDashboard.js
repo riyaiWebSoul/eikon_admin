@@ -8,6 +8,7 @@ import BackServiceMedical from './BackServiceMedical';
 import BackFooter from './BackFooter';
 import BackPatientReviews from './BackPatientReviews';
 import BackHomePage from './BackHomePage';
+import ImageUpload from './ImageUpload';
 
 const BackendDashboard = () => {
   const navigate = useNavigate();
@@ -45,6 +46,7 @@ const BackendDashboard = () => {
         <div className=''>
           <div className="row justify-content-around p-3">
           <button className="btn " onClick={() => handleContentSelect('BackHomePage')}>Home Banner</button>
+          <button className="btn " onClick={() => handleContentSelect('imageUpload')}>Image Upload</button>
             <button className="btn " onClick={() => handleContentSelect('BackAbout')}>About</button>
             <button className="btn" onClick={() => handleContentSelect('BackView')}>Enquiry</button>
             <button className="btn" onClick={() => handleContentSelect('BackFooter')}>Footer</button>
@@ -60,6 +62,8 @@ const BackendDashboard = () => {
 
           <div>
             {activeContent === 'BackAbout' && <BackAbout />}
+            {activeContent === 'imageUpload' &&<ImageUpload/>}
+            
             {activeContent === 'BackView' && <BackView />}
             {activeContent === 'BackFooter' && <BackFooter />}
             {activeContent === 'BackPatientReviews' && <BackPatientReviews />}
