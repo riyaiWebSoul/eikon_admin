@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {   useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -48,11 +48,7 @@ function BackHomePage() {
   };
 
   // useEffect to automatically fetch images list on component mount
-  useEffect(() => {
-    handleGetImagesList();
-    handleGet();
-    
-  }, []);
+  
 
   // Function to handle the GET request to retrieve the images list
   const handleGetImagesList = async () => {
