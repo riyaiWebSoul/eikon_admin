@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 function BackPatientReviews() {
   // State for API response, patient data, confirmation modal, and editing index
   const navigate=useNavigate();
-  const handleGoBack=()=>{
-    navigate('/backHome/backendDashboard/')
-  }
+  // const handleGoBack=()=>{
+  //   navigate('/backHome/backendDashboard/')
+  // }
   const [responseData, setResponseData] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -203,9 +203,9 @@ function BackPatientReviews() {
             >
               New
             </button>
-            <button className="btn btn-gray m-1" onClick={handleGoBack}>
+            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
               Back
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

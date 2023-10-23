@@ -5,9 +5,9 @@ import { useNavigate } from "react-router-dom";
 
 function BackContact() {
   const navigate=useNavigate();
-  const handleGoBack=()=>{
-    navigate('/backHome/backendDashboard/')
-  }
+  // const handleGoBack=()=>{
+  //   navigate('/backHome/backendDashboard/')
+  // }
   const [responseData, setResponseData] = useState(null);
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
@@ -93,9 +93,9 @@ function BackContact() {
             <button className="btn btn-success m-1" onClick={handleUpdate}>
               UPDATE
             </button>
-            <button className="btn btn-gray m-1" onClick={handleGoBack}>
+            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
               Back
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

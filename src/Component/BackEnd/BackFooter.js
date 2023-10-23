@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 
 function BackFooter() {
   const navigate=useNavigate();
-  const handleGoBack=()=>{
-    navigate('/backHome/backendDashboard/')
-  }
+  // const handleGoBack=()=>{
+  //   navigate('/backHome/backendDashboard/')
+  // }
   const [responseData, setResponseData] = useState(null);
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
@@ -57,6 +57,9 @@ function BackFooter() {
       console.error("Error making PATCH request:", error);
     }
   };
+  useEffect(()=>{
+    handleGet()
+  },[])
   return (
     <div className="container">
       <h2 className=" p-5 text-center"> Footer page </h2>
@@ -76,9 +79,9 @@ function BackFooter() {
             >
               UPDATE
             </button>
-            <button className="btn btn-gray m-1" onClick={handleGoBack}>
+            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
               Back
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

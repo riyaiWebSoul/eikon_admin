@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 function BackAbout() {
   const navigate=useNavigate();
-  const handleGoBack=()=>{
-    navigate('/backHome/backendDashboard/')
-  }
+  // const handleGoBack=()=>{
+  //   navigate('/backHome/backendDashboard/')
+  // }
   const [responseData, setResponseData] = useState(null);
   const [id, setId] = useState('');
   const [title, setTitle] = useState('');
@@ -74,6 +74,9 @@ const  openConfirmationModal=async()=>{
       // Handle errors here.
     }
   };
+  useEffect(()=>{
+    handleGet()
+  },[])
 
   return (
     <div className='container'>
@@ -91,9 +94,9 @@ const  openConfirmationModal=async()=>{
             <button className="btn btn-success m-1" onClick={openConfirmationModal}>
               UPDATE
             </button>
-            <button className="btn btn-gray m-1" onClick={handleGoBack}>
+            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
               Back
-            </button>
+            </button> */}
           </div>
         </div>
       </div>

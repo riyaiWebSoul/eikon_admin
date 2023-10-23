@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
 
 
@@ -76,7 +76,9 @@ function BackServiceMapingEcommerce() {
       // Handle errors here.
     }
   };
-
+useEffect(()=>{
+  handleGet()
+},[])
   return (
     <div className='container'>
       <h2 className='text-center p-5'> Medical MapingEcommerce </h2>

@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 function BackView() {
   const navigate=useNavigate();
-  const handleGoBack=()=>{
-    navigate('/backHome/backendDashboard/')
-  }
+  // const handleGoBack=()=>{
+  //   navigate('/backHome/backendDashboard/')
+  // }
   const [responseData, setResponseData] = useState([]);
   const [id, setId] = useState('');
   const [userName, setUserName] = useState('');
@@ -98,9 +98,9 @@ function BackView() {
             <button className="btn btn-primary m-1" onClick={handleGet}>
               GET
             </button>
-            <button className="btn btn-gray m-1" onClick={handleGoBack}>
+            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
               Back
-            </button>
+            </button> */}
            
           </div>
         </div>
