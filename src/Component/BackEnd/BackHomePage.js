@@ -27,16 +27,15 @@ function BackHomePage() {
   const handleGet = async () => {
     try {
       // Make a GET request to retrieve the list of images
-      const imagesListResponse = await axios.get(' ');
-      const list = imagesListResponse.data;
-
+  
       // Make a GET request to retrieve the data for a specific ID
       const response = await axios.get('https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba');
       const data = response.data;
       console.log(data)
+    
 
       // Update the state variables with the retrieved data
-      setImageList(list.images);
+     
       setResponseData(data);
       setTitle(data.section.title);
       setDescription(data.section.description);
@@ -261,7 +260,7 @@ const handleUploadImages=async()=>{
                         data-image-name={item} // Add data-image-name attribute
                       >
                         <img
-                          src={`https://eikon-api.onrender.com/imageUpload/${item}`}
+                          src={`https://eikon-api.onrender.com/imageUploads${item}`}
                           alt={`${index}`}
                           className="card-img-top "
                         />
