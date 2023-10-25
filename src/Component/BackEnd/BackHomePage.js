@@ -3,16 +3,8 @@ import axios from 'axios';
 // import { useNavigate } from 'react-router-dom';
 
 
-function BackHomePage() {
-  // Initialize the React Router navigation hook
-  // const navigate = useNavigate();
+function BackHomePage({setModalState}) {
 
-  // Function to navigate back to the dashboard page
-  // const handleGoBack = () => {
-  //   navigate('/backendDashboard/');
-  // }
-
-  // State variables to store data retrieved from the API
   const [responseData, setResponseData] = useState(null);
   const [title, setTitle] = useState('');
   const [heading, setHeading] = useState('');
@@ -64,12 +56,16 @@ console.log(list)
     }
   };
 
-  // Function to open the confirmation modal
-  const openConfirmationModal = () => {
-    setShowConfirmationModal(true);
-  }
 
-  // Function to handle the UPDATE (PATCH) request
+  const openConfirmationModal = async () => {
+    setModalState(prevState => ({
+      ...prevState,
+      showModal: true,
+      handleUpdate
+    }))
+  }
+  
+
   const handleUpdate = async () => {
     try {
       // Make a PATCH request to update the data with the specified ID
@@ -84,25 +80,16 @@ console.log(list)
 
       // Update the state variable with the response data
       setResponseData(response.data);
+      setModalState(prevState => ({
+        ...prevState,
+        showModal: false,
+      }))
     } catch (error) {
       console.error('Error making PATCH request:', error);
       // Handle errors here.
     }
   };
-const handleUploadImages=async()=>{
-  try {
-    // Make a PATCH request to update the data with the specified ID
-    const response = await axios.post('https://eikon-api.onrender.com/imageUpload',{
-     
-    });
 
-    // Update the state variable with the response data
-    setResponseData(response.data);
-  } catch (error) {
-    console.error('Error making PATCH request:', error);
-    // Handle errors here.
-  }
-}
   // Function to handle image click and update the selected image name
   const handleImageClick = (imageName) => {
     setSelectedImageName(imageName);
@@ -167,7 +154,7 @@ const handleUploadImages=async()=>{
   ;
   return (
     <div className="container">
-      <h2 className="p-5 text-center">Home Banner</h2>
+    
       <div className="row">
         <div className="col-sm-6">
           <div className="btn-group">
@@ -183,16 +170,13 @@ const handleUploadImages=async()=>{
             <button className="btn btn-success m-1" onClick={openConfirmationModal}>
               UPDATE
             </button>
-            {/* Button to navigate back */}
-            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
-              Back
-            </button> */}
+           
           </div>
         </div>
       </div>
       <br />
       <div className="z-0" style={{ display: 'block', zIndex: 1 }}>
-        <h3>Edit Data:</h3>
+      
         <div>
           {/* Input field for Title */}
           <label>Title:</label>
