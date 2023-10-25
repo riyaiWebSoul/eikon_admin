@@ -69,7 +69,7 @@ function BackFooter() {
           <div className="btn-group  ">
           
             <button className="btn btn-primary m-1 " onClick={handleGet}>
-              GET
+              GET Button
             </button>
            
 
