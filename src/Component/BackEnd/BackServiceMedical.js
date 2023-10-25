@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 
-function BackServiceMedical() {
+function BackServiceMedical({setModalState}) {
 
   const [responseData, setResponseData] = useState(null);
   const [id, setId] = useState('');
@@ -31,13 +31,14 @@ function BackServiceMedical() {
       // Handle errors here.
     }
   };
-
-
   const openConfirmationModal = async () => {
-    setShowConfirmationModal(true);
+    setModalState(prevState => ({
+      ...prevState,
+      showModal: true,
+      handleUpdate
+    }))
+  }
 
-
-  };
   const handleUpdate = async () => {
     try {
       const response = await axios.patch(`https://eikon-api.onrender.com/medical/650d8a004a0a2ffd8152e4d3`, {
@@ -55,6 +56,10 @@ function BackServiceMedical() {
        
       });
       setResponseData(response.data);
+      setModalState(prevState => ({
+        ...prevState,
+        showModal: false,
+      }))
     } catch (error) {
       console.error('Error making PATCH request:', error);
       // Handle errors here.
@@ -65,36 +70,11 @@ function BackServiceMedical() {
   },[])
   return (
     <div className='container'>
-      <h2 className='text-center p-5'> Medical Service </h2>
-      <div className="row ">
-      
-        <div className="col-sm-6">
-          <div className="btn-group ">
-            {/* <button className="btn btn-primary m-1" onClick={handlePost}>
-              POST
-            </button> */}
-            <button className="btn btn-primary m-1 " onClick={handleGet}>
-              GET
-            </button>
-            {/* <button className="btn btn-danger m-1" onClick={handleDelete}>
-              DELETE
-            </button> */}
-            {/* <button className="btn btn-warning m-1" onClick={handlePut}>
-              PUT
-            </button> */}
-            <button className="btn btn-success m-1" onClick={openConfirmationModal}>
-              UPDATE
-            </button>
-            
-          </div>
-        </div>
-      </div>
-      <br />
-      {responseData && (
+   
         <div>
-          <h3>Edit Data:</h3>
+         
           <div>
-            <label>Title:</label>
+            <label className="mt-5">Title:</label>
             <input className="form-control"
               type="text"
               value={title}
@@ -132,55 +112,10 @@ function BackServiceMedical() {
         
          
         </div>
-      )}
-      {/* {responseData && (
-        <div>
-          <h3>Response Data:</h3>
-          <pre>{JSON.stringify(responseData, null, 2)}</pre>
+        <div className="row justify-content-end">
+          <button className="btn btn-primary m-1 " onClick={handleGet}>Get</button>
+          <button className="btn btn-success m-1" onClick={openConfirmationModal}>Update</button>
         </div>
-      )} */}
-       <div>
-        {showConfirmationModal && (
-          <div className="modal fade show " style={{ display: "block" }}>
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content bg-warning">
-                <div className="modal-header">
-                  <h5 className="modal-title">Confirm Update</h5>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  Are you sure you want to update?
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setShowConfirmationModal(false);
-                      handleUpdate();
-                    }}
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
     </div>
   );
 }

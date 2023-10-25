@@ -68,10 +68,8 @@ useEffect(()=>{
 },[])
   return (
     <div className='container'>
-       
-          <h3>Edit Data:</h3>
-          <div>
-            <label>Title:</label>
+          <div className="mt-5" >
+            <label >Title:</label>
             <input className="form-control"
               type="text"
               value={title}

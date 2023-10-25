@@ -1,18 +1,16 @@
 import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+
 
 
 function BackContact({setModalState}) {
   const [responseData, setResponseData] = useState(null);
   const [data, setData] = useState({})
-  const [id, setId] = useState('');
+
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [drTeamList, setDrTeamList] = useState([]);
-  const[descriptionSub1,setDescriptionSub1]=useState('')
-  const[descriptionSub2,setDescriptionSub2]=useState('')
-  const[descriptionSub3,setDescriptionSub3]=useState('')
+
 
   const handleGet = async () => {
     try {
@@ -22,10 +20,6 @@ function BackContact({setModalState}) {
       setResponseData(data);
       setTitle(data.title); // Set the title in the input field
       setDescription(data.description)
-      setDescriptionSub1(data.descriptionSub1)
-      setDescriptionSub2(data.descriptionSub2)
-      setDescriptionSub3(data.descriptionSub3); // Set the description in the input field
-      ; // Set the description in the input field
       setDrTeamList(data.DrTeamList); // Set the DrTeamList
      
     } catch (error) {
@@ -64,9 +58,9 @@ useEffect(()=>{handleGet()},[])
     <div className='container'>
       {responseData && (
         <div>
-          <h3>Edit Data:</h3>
+          
           <div>
-            <label>Title:</label>
+            <label className="mt-5">Title:</label>
             <input className="form-control"
               type="text"
               value={title}
