@@ -19,14 +19,7 @@ function BackAbout({setModalState}) {
     }
   }
 
-  const handleDelete = async () => {
-    // ... (unchanged)
-  }
 
-
-  const handlePut = async () => {
-    // ... (unchanged)
-  }
 
   const openConfirmationModal = async () => {
     setModalState(prevState => ({

@@ -7,6 +7,7 @@ import BackFooter from './BackFooter';
 import BackPatientReviews from './BackPatientReviews';
 import BackHomePage from './BackHomePage';
 import ImageUpload from './ImageUpload';
+import BackContact from './BackContact';
 
 export const components = [
     {
@@ -41,6 +42,10 @@ export const components = [
     name:'Home Banner',
     component:BackHomePage
     },
+    {
+        name:'Contact',
+        component:BackContact
+        },
     {
     name:'Image Upload',
     component:ImageUpload
