@@ -37,7 +37,7 @@ const ImageUpload = () => {
       });
   }
 
-  const handleImageDelete = () => {
+  const handleImageDelete = (selectedImage) => {
     if (selectedImage) {
       const deleteUrl = `https://eikon-api.onrender.com/api/deleteImage/${selectedImage}`;
       console.log('Delete URL:', deleteUrl);
@@ -62,20 +62,17 @@ const ImageUpload = () => {
       <button onClick={handleImageUpload}>Upload Image</button>
       <div className="row">
         {imageNames.map((imageName, index) => (
-          <div key={index} className="col-md-3">
+          <div key={index} className="col-md-3 my-2">
             <div className="card">
               <img
                 src={images + imageName}
                 alt={`Image ${index + 1}`}
                 className="card-img-top img-fluid"
-                onClick={() => {
-                  setSelectedImage(imageName);
-                  setShowOptionsModal(true);
-                }}
               />
               <div className="card-body">
                 <h5 className="card-title">Image {index + 1}</h5>
                 <p className="card-text">{imageName}</p>
+                <button onClick={() => handleImageDelete(imageName)}>Delete</button>
               </div>
             </div>
           </div>
