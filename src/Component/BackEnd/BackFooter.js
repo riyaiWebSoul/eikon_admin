@@ -8,7 +8,7 @@ function BackFooter() {
   // const handleGoBack=()=>{
   //   navigate('/backHome/backendDashboard/')
   // }
-  const [responseData, setResponseData] = useState(null);
+  const [responseData, setResponseData] = useState();
   const [id, setId] = useState("");
   const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
