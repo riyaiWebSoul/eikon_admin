@@ -14,7 +14,7 @@ function BackFooter() {
   const [email, setEmail] = useState("");
   const [number, setNumber] = useState("");
   const [address, setAddress] = useState([]);
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(true);
 
   const handleGet = async () => {
     try {
