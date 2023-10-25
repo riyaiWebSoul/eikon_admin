@@ -13,14 +13,13 @@ function BackView({setModalState}) {
   const [time, setTime] = useState('');
   const [date, setDate] = useState('');
   const [gender, setGender] = useState('');
+  const [deleteIndex, setDeleteIndex] = useState(null);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
 
-  const openConfirmationModal = async () => {
-    setModalState(prevState => ({
-      ...prevState,
-      showModal: true,
-      handleUpdate
-    }))
+  const openConfirmationModal = (index) => {
+    setDeleteIndex(index); // Store the index to delete
+    setShowConfirmationModal(true);
   }
   useEffect(() => {
     handleGet();
@@ -42,19 +41,40 @@ function BackView({setModalState}) {
     try {
        handleGet()
       const updatedData = [...responseData];
-      const checkId = updatedData[index]._id;
+      const checkId = updatedData[deleteIndex]._id;
       const checkIdString = checkId.toString();
      
       const response = await axios.delete(`https://eikon-api.onrender.com/enquiry/${checkIdString}`);
       if (response.status === 200) {
        
-        updatedData.splice(index, 1);
+        updatedData.splice(deleteIndex, 1);
         setResponseData(updatedData);
        
       }
       handleGet()
     } catch (error) {
       console.error('Error making DELETE request:', error);
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      if (deleteIndex !== null) {
+        const entryToDelete = responseData[deleteIndex];
+        const response = await axios.delete(`https://eikon-api.onrender.com/appointments/${entryToDelete._id}`);
+
+        if (response.status === 200) {
+          const updatedData = responseData.filter((entry, index) => index !== deleteIndex);
+          setResponseData(updatedData);
+        }
+
+        setDeleteIndex(null); // Clear the delete index
+        handleGet()
+  
+      }
+    } catch (error) {
+      console.error('Error making DELETE request:', error);
+      // Handle errors here.
     }
   };
  
@@ -111,7 +131,7 @@ function BackView({setModalState}) {
              
                 
                   <td className='text-center'>
-                    <button className="btn btn-danger text-center" onClick={() => handleUpdate(index)}>
+                    <button className="btn btn-danger text-center" onClick={() => openConfirmationModal(index)}>
                       Delete
                     </button>
                   </td>
@@ -121,6 +141,56 @@ function BackView({setModalState}) {
           </table>
           
         </div>
+
+
+        <div>
+        {showConfirmationModal && (
+<div>
+<div className="modal fade show" style={{ display: "block" }}>
+            <div className="modal-dialog ">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Confirm Delete</h5>
+                  <button
+                    type="button"
+                    className="close"
+                    onClick={() => setShowConfirmationModal(false)}
+                  >
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  Are you sure you want to delete this entry?
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => setShowConfirmationModal(false)}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={() => {
+                      setShowConfirmationModal(false);
+                      handleUpdate();
+                    }}
+                  >
+                    Confirm Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        <div className="modal-backdrop fade show"></div>
+
+</div>
+          
+        )}
+      </div>
     </div>
   );
 }

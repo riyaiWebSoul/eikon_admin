@@ -12,7 +12,7 @@ function BackAppointmentSuccess() {
   const [date, setDate] = useState('');
   const [gender, setGender] = useState('');
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [deleteIndex, setDeleteIndex] = useState(null); // Track the index to delete
+  const [deleteIndex, setDeleteIndex] = useState(null);
 
   useEffect(() => {
     handleGet();
