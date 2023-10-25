@@ -5,14 +5,15 @@ const ImageUpload = () => {
   const [imageNames, setImageNames] = useState([]);
   const [images, setImages] = useState([]);
   const [newImage, setNewImage] = useState(null);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null); // Added state for selected image
   const [showOptionsModal, setShowOptionsModal] = useState(false);
 
   const fetchImageNames = () => {
     axios.get('https://eikon-api.onrender.com/api/imageNames')
       .then(response => {
         setImageNames(response.data);
-        setImages('https://eikon-api.onrender.com/imageUploads/')
+        // Set the images state correctly
+        setImages(response.data.map(imageName => `https://eikon-api.onrender.com/imageUploads/${imageName}`));
       })
       .catch(error => {
         console.error('Error fetching data:', error);
@@ -37,7 +38,13 @@ const ImageUpload = () => {
       });
   }
 
-  const handleImageDelete = (selectedImage) => {
+  const handleImageDelete = (imageName) => {
+    setSelectedImage(imageName); // Set selectedImage before showing the modal
+
+    setShowOptionsModal(true); // Show the modal
+  }
+
+  const confirmDeleteImage = () => {
     if (selectedImage) {
       const deleteUrl = `https://eikon-api.onrender.com/api/deleteImage/${selectedImage}`;
       console.log('Delete URL:', deleteUrl);
@@ -56,23 +63,23 @@ const ImageUpload = () => {
   }
 
   return (
-    <div>
+    <div className='container'>
       <h1>Image Names</h1>
       <input type="file" onChange={e => setNewImage(e.target.files[0])} />
-      <button onClick={handleImageUpload}>Upload Image</button>
+      <button class="btn btn-success m-1" onClick={handleImageUpload}>Upload Image</button>
       <div className="row">
         {imageNames.map((imageName, index) => (
           <div key={index} className="col-md-3 my-2">
             <div className="card">
               <img
-                src={images + imageName}
+                src={images[index]}
                 alt={`Image ${index + 1}`}
                 className="card-img-top img-fluid"
               />
               <div className="card-body">
                 <h5 className="card-title">Image {index + 1}</h5>
                 <p className="card-text">{imageName}</p>
-                <button onClick={() => handleImageDelete(imageName)}>Delete</button>
+                <button  className="btn btn-danger" onClick={() => handleImageDelete(imageName)}>Delete</button>
               </div>
             </div>
           </div>
@@ -94,7 +101,7 @@ const ImageUpload = () => {
               </div>
               <div className="modal-body">
                 <p>{selectedImage}</p>
-                <button onClick={handleImageDelete} className="btn btn-danger">Delete Image</button>
+                <button onClick={confirmDeleteImage} className="btn btn-danger">Delete Image</button>
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(selectedImage);
