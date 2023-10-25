@@ -209,7 +209,7 @@ function BackPatientReviews({ setModalState }) {
         />
       </div>
       <div>
-        <h3>Existing Patients:</h3>
+        <h3 className="text-center m-5">Patients Reviews</h3>
         {userReview.userReview.map((patient, index) => (
           <div key={index}>
             {editingIndex === index ? (
@@ -276,19 +276,19 @@ function BackPatientReviews({ setModalState }) {
               </div>
             ) : (
               // Render patient details
-              <div>
+              <div className="m-5">
                 <p>Name: {patient.Name}</p>
                 <p>Patient: {patient.Patient}</p>
                 <p>Description: {patient.description}</p>
                 <p>Image URL: {patient.image}</p>
                 <button
-                  className="btn btn-primary mx-2"
+                  className="btn btn-primary"
                   onClick={() => handleEditPatient(index)}
                 >
                   Edit
                 </button>
                 <button
-                  className="btn btn-danger"
+                  className="btn btn-danger mx-2"
                   onClick={() => handleDeletePatient(index)}
                 >
                   Delete

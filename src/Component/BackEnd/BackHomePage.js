@@ -84,34 +84,16 @@ function BackHomePage({ setModalState }) {
       setSelectedImage(newSelectedImage);
     }
   };
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-  };
 
-  const handleUpload = () => {
-    const formData = new FormData();
-    formData.append("image", file);
-    axios
-      .post("https://eikon-api.onrender.com/imageUpload", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        console.log(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+
 
   useEffect(() => {
     handleGet();
   }, []);
   return (
     <div className="container">
-      <div className="row">
-        <div className="col-sm-6">
+      <div className="d-flex justify-content-end">
+        <div className="col-sm-6 mt-5 d-flex justify-content-end">
           <div className="btn-group">
             <button className="btn btn-primary m-1" onClick={handleGet}>
               GET
@@ -158,10 +140,7 @@ function BackHomePage({ setModalState }) {
             onChange={(e) => setSelectedImageName(e.target.value)}
           />
         </div>
-        <div>
-          <input type="file" accept="image/*" onChange={handleFileChange} />
-          <button onClick={handleUpload}>Upload Image</button>
-        </div>
+      
 
         <div className="form-group">
           <label>Heading:</label>

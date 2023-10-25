@@ -19,29 +19,21 @@ function BackThankYou() {
 
   const handleGet = async () => {
     try {
-      const response = await axios.get(`https://eikon-api.onrender.com/home/${id}`); // Include the ID in the URL
+      const response = await axios.get(`https://eikon-api.onrender.com/home/${id}`);
       const data = response.data;
       setResponseData(data);
       setTitle(data.title); // Set the title in the input field
       setDescription(data.description)
       setDescriptionSub1(data.descriptionSub1)
       setDescriptionSub2(data.descriptionSub2)
-      setDescriptionSub3(data.descriptionSub3); // Set the description in the input field
-      ; // Set the description in the input field
+      setDescriptionSub3(data.descriptionSub3);
       setDrTeamList(data.DrTeamList); // Set the DrTeamList
     } catch (error) {
       console.error('Error making GET request:', error);
-      // Handle errors here.
+
     }
   };
 
-  const handleDelete = async () => {
-    // ... (unchanged)
-  };
-
-  const handlePut = async () => {
-    // ... (unchanged)
-  };
 
   const handleUpdate = async () => {
     try {
@@ -81,9 +73,7 @@ function BackThankYou() {
             <button className="btn btn-danger m-1" onClick={handleDelete}>
               DELETE
             </button>
-            <button className="btn btn-warning m-1" onClick={handlePut}>
-              PUT
-            </button>
+           
             <button className="btn btn-success m-1" onClick={handleUpdate}>
               UPDATE
             </button>

@@ -46,9 +46,8 @@ function BackAppointmentSuccess() {
         }
 
         setDeleteIndex(null); // Clear the delete index
-
-        // Reload the page after a successful deletion
-        window.location.reload();
+        handleGet()
+  
       }
     } catch (error) {
       console.error('Error making DELETE request:', error);
