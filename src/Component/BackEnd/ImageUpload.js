@@ -64,9 +64,13 @@ const ImageUpload = () => {
 
   return (
     <div className='container'>
-      <h1>Image Names</h1>
-      <input type="file" onChange={e => setNewImage(e.target.files[0])} />
-      <button class="btn btn-success m-1" onClick={handleImageUpload}>Upload Image</button>
+      <h1 className='my-5 text-center'>Image</h1>
+      <div className='my-5  '>
+     <div className='row justify-content-end'><input type="file" onChange={e => setNewImage(e.target.files[0])} /></div> 
+     <div className='row justify-content-end'>
+      <button class="btn btn-success m-1  " onClick={handleImageUpload}>Upload Image</button></div>
+      </div>
+    
       <div className="row">
         {imageNames.map((imageName, index) => (
           <div key={index} className="col-md-3 my-2">
@@ -101,7 +105,7 @@ const ImageUpload = () => {
               </div>
               <div className="modal-body">
                 <p>{selectedImage}</p>
-                <button onClick={confirmDeleteImage} className="btn btn-danger">Delete Image</button>
+                <button onClick={confirmDeleteImage} className="btn btn-danger mx-2">Delete Image</button>
                 <button
                   onClick={() => {
                     navigator.clipboard.writeText(selectedImage);
