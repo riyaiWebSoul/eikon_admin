@@ -4,7 +4,7 @@ import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-const BackHome = () => {
+const BackHome = ({setIsAuthenticated}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
@@ -14,12 +14,15 @@ const BackHome = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.get(`https://eikon-api.onrender.com/loginId`);
+      // const response = await axios.post(`https://eikon-api.onrender.com/loginId`, { email, password });
+      const response = await axios.post(`https://eikon-api.onrender.com/loginId`, { email, password });
       const data = response.data;
 
-      if (data.length > 0 && password === data[0].password && email === data[0].email) {
+      if (data?.isValid === true) {
+        setIsAuthenticated(true)
         navigate('/backEndDashboard');
       } else {
+        setIsAuthenticated(false)
         setErrorMessage('Wrong email or password. Please try again.');
       }
     } catch (error) {
