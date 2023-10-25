@@ -57,11 +57,11 @@ function BackAbout({setModalState}) {
 
   return (
     <div className='container mt-2'>
-      {/* <h2 className=' p-5 text-center'> About Us </h2> */}
+    
       <div className='' style={{ display: 'block', zIndex: 1 }}>
-        {/* <h3>Edit Data:</h3> */}
+       
         <div>
-          <label>Title:</label>
+          <label className="mt-5">Title:</label>
           <input className="form-control"
             type="text"
             value={data?.title}
