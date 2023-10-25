@@ -1,14 +1,7 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-
-function BackPatientReviews() {
-  // State for API response, patient data, confirmation modal, and editing index
-  const navigate=useNavigate();
-  // const handleGoBack=()=>{
-  //   navigate('/backHome/backendDashboard/')
-  // }
+function BackPatientReviews({ setModalState }) {
   const [responseData, setResponseData] = useState(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -28,10 +21,9 @@ function BackPatientReviews() {
       },
     ],
   });
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+
   const [editingIndex, setEditingIndex] = useState(null); // Track currently edited patient index
 
-  // State for adding a new patient
   const [newPatient, setNewPatient] = useState({
     Name: "",
     Patient: "",
@@ -55,11 +47,13 @@ function BackPatientReviews() {
     }
   };
 
-  // Function to open the confirmation modal
-  const openConfirmationModal = () => {
-    setShowConfirmationModal(true);
+  const openConfirmationModal = async () => {
+    setModalState((prevState) => ({
+      ...prevState,
+      showModal: true,
+      handleUpdate,
+    }));
   };
-
 
   // Function to update patient data
   const handleUpdate = async () => {
@@ -71,20 +65,19 @@ function BackPatientReviews() {
             title: title,
             description: description,
           },
-          userReview: [
-            ...userReview.userReview
-          ],
+          userReview: [...userReview.userReview],
         }
       );
-  
-    //   setResponseData(response.data);
+
+      setResponseData(response.data);
+      setModalState((prevState) => ({
+        ...prevState,
+        showModal: false,
+      }));
     } catch (error) {
       console.error("Error making PATCH request:", error);
     }
-  
-    setShowConfirmationModal(false); // Close the confirmation modal after handling update
   };
-  
 
   // Function to add a new patient to the user review array
   const handleAddPatient = () => {
@@ -97,7 +90,6 @@ function BackPatientReviews() {
       userReview: updatedUserReview,
     }));
 
-    // Clear the form for adding a new patient
     setNewPatient({
       Name: "",
       Patient: "",
@@ -111,7 +103,7 @@ function BackPatientReviews() {
     // Set the editing index and populate the form with the patient's data
     setEditingIndex(index);
     const editedPatient = userReview.userReview[index];
-    
+
     setNewPatient({ ...editedPatient });
   };
 
@@ -158,74 +150,64 @@ function BackPatientReviews() {
   };
   const handleUpload = () => {
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
 
-    axios.post('https://eikon-api.onrender.com/imageUpload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      // Handle success, e.g., show a success message
-    })
-    .catch((error) => {
-      console.error(error);
-      // Handle error, e.g., show an error message
-    });
+    axios
+      .post("https://eikon-api.onrender.com/imageUpload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+        // Handle success, e.g., show a success message
+      })
+      .catch((error) => {
+        console.error(error);
+        // Handle error, e.g., show an error message
+      });
   };
 
-  useEffect(()=>{
-    handleGet()
-  },[])
+  useEffect(() => {
+    handleGet();
+  }, []);
   return (
     <div className="container">
-      <h2 className="p-5 text-center">Patient Review</h2>
-      <div className="row ">
-        {/* Input field for ID */}
-       
-        <div className="col-sm-6">
+      
+      <div className="d-flex justify-content-end">
+        <div className="col-sm-6 mt-5 d-flex justify-content-end">
           <div className="btn-group ">
-            {/* Button to trigger GET request */}
             <button className="btn btn-primary m-1 " onClick={handleGet}>
               GET
             </button>
-            {/* Button to trigger UPDATE confirmation modal */}
             <button
               className="btn btn-success m-1"
               onClick={openConfirmationModal}
             >
               UPDATE
             </button>
-            <button
-              className="btn btn-success m-1"
-              onClick={handleAddPatient}
-            >
+            <button className="btn btn-success m-1" onClick={handleAddPatient}>
               New
             </button>
-            {/* <button className="btn btn-gray m-1" onClick={handleGoBack}>
-              Back
-            </button> */}
           </div>
         </div>
       </div>
       <div className="col-sm-6 mt-lg-5">
-          <input
-            type="text"
-            className="form-control m-1"
-            placeholder="Enter on Get Button to get API"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            className="form-control m-1"
-            placeholder="Enter on Get Button"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-          />
-        </div>
-      {/* Display existing patients and provide a way to edit and delete them */}
+        <input
+          type="text"
+          className="form-control m-1"
+          placeholder="Enter on Get Button to get API"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          className="form-control m-1"
+          placeholder="Enter on Get Button"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+      </div>
       <div>
         <h3>Existing Patients:</h3>
         {userReview.userReview.map((patient, index) => (
@@ -267,8 +249,12 @@ function BackPatientReviews() {
                       })
                     }
                   />
-                    <input type="file" accept="image/*" onChange={handleFileChange} />
-                    <button onClick={handleUpload}>Upload Image</button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleFileChange}
+                  />
+                  <button onClick={handleUpload}>Upload Image</button>
                 </div>
                 <div>
                   <label>Image URL:</label>
@@ -290,13 +276,13 @@ function BackPatientReviews() {
               </div>
             ) : (
               // Render patient details
-              <div >
+              <div>
                 <p>Name: {patient.Name}</p>
                 <p>Patient: {patient.Patient}</p>
                 <p>Description: {patient.description}</p>
                 <p>Image URL: {patient.image}</p>
                 <button
-                  className="btn btn-primary"
+                  className="btn btn-primary mx-2"
                   onClick={() => handleEditPatient(index)}
                 >
                   Edit
@@ -312,43 +298,7 @@ function BackPatientReviews() {
           </div>
         ))}
       </div>
-
-      {/* Confirmation modal */}
-      {showConfirmationModal && (
-        <div className="modal fade show " style={{ display: "block" }}>
-          <div className="modal-dialog modal-dialog-centered">
-            <div className="modal-content bg-warning">
-              <div className="modal-header">
-                <h5 className="modal-title">Confirm Update</h5>
-                <button
-                  type="button"
-                  className="close"
-                  onClick={() => setShowConfirmationModal(false)}
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">Are you sure you want to update?</div>
-              <div className="modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-secondary"
-                  onClick={() => setShowConfirmationModal(false)}
-                >
-                  Cancel
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleUpdate}
-                >
-                  Confirm
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+     
     </div>
   );
 }
