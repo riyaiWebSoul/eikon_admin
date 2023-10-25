@@ -5,10 +5,6 @@ import { useNavigate } from "react-router-dom"
 function BackAbout({setModalState}) {
   const [data, setData] = useState({})
 
-  const handlePost = async () => {
-    // ... (unchanged)
-  }
-
   const handleGet = async () => {
     try {
       const response = await axios.get(`https://eikon-api.onrender.com/about/65167a7585c32c09813f3561`) // Include the ID in the URL

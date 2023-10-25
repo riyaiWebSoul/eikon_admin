@@ -3,7 +3,7 @@ import axios from 'axios';
 
 
 
-function BackServiceMapingEcommerce() {
+function BackServiceMapingEcommerce({setModalState}) {
 
   const [responseData, setResponseData] = useState(null);
   const [id, setId] = useState('');
@@ -14,15 +14,6 @@ function BackServiceMapingEcommerce() {
   const[descriptionSub2,setDescriptionSub2]=useState('')
   const [showConfirmationModal, setShowConfirmationModal] = useState(false);
 
-  
-
-
-  
-
-
-  const handlePost = async () => {
-    // ... (unchanged)
-  };
 
   const handleGet = async () => {
     try {
@@ -33,27 +24,19 @@ function BackServiceMapingEcommerce() {
       setDescription(data.MapingEcommerce.description)
       setSubTitle(data.MapingEcommerce.section1.title)
       setDescriptionSub1(data.MapingEcommerce.section2.description1)
-      setDescriptionSub2(data.MapingEcommerce.section2.description2)
-    
-      
+      setDescriptionSub2(data.MapingEcommerce.section2.description2)   
     } catch (error) {
-      console.error('Error making GET request:', error);
-      // Handle errors here.
+      console.error('Error making GET request:', error)
     }
   };
-
-  const handleDelete = async () => {
-    // ... (unchanged)
-  };
-
-  const handlePut = async () => {
-    // ... (unchanged)
-  };
   const openConfirmationModal = async () => {
-    setShowConfirmationModal(true);
-
-
-  };
+    setModalState(prevState => ({
+      ...prevState,
+      showModal: true,
+      handleUpdate
+    }))
+  }
+  
   const handleUpdate = async () => {
     try {
       const response = await axios.patch(`https://eikon-api.onrender.com/mapingEcommerce/650d7d0f12bb6287eb8740b1`, {
@@ -71,9 +54,13 @@ function BackServiceMapingEcommerce() {
        
       });
       setResponseData(response.data);
+      setModalState(prevState => ({
+        ...prevState,
+        showModal: false,
+      }))
     } catch (error) {
       console.error('Error making PATCH request:', error);
-      // Handle errors here.
+   
     }
   };
 useEffect(()=>{
@@ -81,34 +68,7 @@ useEffect(()=>{
 },[])
   return (
     <div className='container'>
-      <h2 className='text-center p-5'> Medical MapingEcommerce </h2>
-      <div className="row ">
-        
-        <div className="col-sm-6">
-          <div className="btn-group ">
-            {/* <button className="btn btn-primary m-1" onClick={handlePost}>
-              POST
-            </button> */}
-            <button className="btn btn-primary m-1 " onClick={handleGet}>
-              GET
-            </button>
-            {/* <button className="btn btn-danger m-1" onClick={handleDelete}>
-              DELETE
-            </button> */}
-            {/* <button className="btn btn-warning m-1" onClick={handlePut}>
-              PUT
-            </button> */}
-            <button className="btn btn-success m-1" onClick={openConfirmationModal}>
-              UPDATE
-            </button>
-            
-          </div>
-        </div>
-      
-      </div>
-      <br />
-      {responseData && (
-        <div>
+       
           <h3>Edit Data:</h3>
           <div>
             <label>Title:</label>
@@ -147,58 +107,13 @@ useEffect(()=>{
             />
           </div>
         
-         
+      <div className="row justify-content-end">
+          <button className="btn btn-primary m-1 " onClick={handleGet}>Get</button>
+          <button className="btn btn-success m-1" onClick={openConfirmationModal}>Update</button>
         </div>
-      )}
-      {/* {responseData && (
-        <div>
-          <h3>Response Data:</h3>
-          <pre>{JSON.stringify(responseData, null, 2)}</pre>
         </div>
-      )} */}
-       <div>
-        {showConfirmationModal && (
-          <div className="modal fade show " style={{ display: "block" }}>
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content bg-warning">
-                <div className="modal-header">
-                  <h5 className="modal-title">Confirm Update</h5>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">
-                  Are you sure you want to update?
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setShowConfirmationModal(false);
-                      handleUpdate();
-                    }}
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
+  
+   
   );
 }
 

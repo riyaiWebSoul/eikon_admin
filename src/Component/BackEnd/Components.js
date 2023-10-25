@@ -23,7 +23,7 @@ export const components = [
     component:BackAppointmentSuccess
     },
     {
-    name:'Medical Maping Ecommerce',
+    name:'Maping Ecommerce',
     component:BackServiceMapingEcommerce
     },
     {
