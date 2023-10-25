@@ -1,108 +1,86 @@
-import React, {   useState } from 'react';
-import axios from 'axios';
-// import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-
-function BackHomePage({setModalState}) {
-
+function BackHomePage({ setModalState }) {
   const [responseData, setResponseData] = useState(null);
-  const [title, setTitle] = useState('');
-  const [heading, setHeading] = useState('');
-  const [description, setDescription] = useState('');
+  const [title, setTitle] = useState("");
+  const [heading, setHeading] = useState("");
+  const [description, setDescription] = useState("");
   const [file, setFile] = useState(null);
   const [imageList, setImageList] = useState([]);
-  const [selectedImageName, setSelectedImageName] = useState('');
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
-  const [selectedImage, setSelectedImage] = useState(null); // Track selected image
-
-  // Function to handle the GET request to retrieve data
+  const [selectedImageName, setSelectedImageName] = useState("");
+  const [imageNames,setImageNames]=useState('')
+  const [selectedImage, setSelectedImage] = useState(null);
   const handleGet = async () => {
     try {
-      // Make a GET request to retrieve the list of images
-  
-      // Make a GET request to retrieve the data for a specific ID
-      const response = await axios.get('https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba');
+      const response = await axios.get(
+        "https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba"
+      );
       const data = response.data;
-      console.log(data)
-    
-
-      // Update the state variables with the retrieved data
-     
+      console.log(data);
       setResponseData(data);
       setTitle(data.section.title);
       setDescription(data.section.description);
       setHeading(data.section.heading);
+      setImageNames(data.section.imageSrc[0])
     } catch (error) {
-      console.error('Error making GET request:', error);
-      // Handle errors here.
+      console.error("Error making GET request:", error);
     }
   };
 
-  // useEffect to automatically fetch images list on component mount
-  
-
-  // Function to handle the GET request to retrieve the images list
   const handleGetImagesList = async () => {
     try {
-      // Make a GET request to retrieve the list of images
-      const imagesListResponse = await axios.get('https://eikon-api.onrender.com/imageUpload');
+      const imagesListResponse = await axios.get(
+        "https://eikon-api.onrender.com/imageUpload"
+      );
       const list = imagesListResponse.data;
-console.log(list)
-      // Update the state variable with the retrieved list of images
+      console.log(list);
+
       setImageList(list.images);
     } catch (error) {
-      console.error('Error making GET request:', error);
-      // Handle errors here.
+      console.error("Error making GET request:", error);
     }
   };
-
-
   const openConfirmationModal = async () => {
-    setModalState(prevState => ({
+    setModalState((prevState) => ({
       ...prevState,
       showModal: true,
-      handleUpdate
-    }))
-  }
-  
+      handleUpdate,
+    }));
+  };
 
   const handleUpdate = async () => {
     try {
-      // Make a PATCH request to update the data with the specified ID
-      const response = await axios.patch('https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba', {
-        section: {
-          imageSrc: selectedImageName, // Use selectedImageName instead of image
-          title: title,
-          heading: heading,
-          description: description,
+      const response = await axios.patch(
+        "https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba",
+        {
+          section: {
+            imageSrc: selectedImageName,
+            title: title,
+            heading: heading,
+            description: description,
+          },
         }
-      });
-
-      // Update the state variable with the response data
+      );
       setResponseData(response.data);
-      setModalState(prevState => ({
+      setModalState((prevState) => ({
         ...prevState,
         showModal: false,
-      }))
+      }));
     } catch (error) {
-      console.error('Error making PATCH request:', error);
-      // Handle errors here.
+      console.error("Error making PATCH request:", error);
     }
   };
-
-  // Function to handle image click and update the selected image name
   const handleImageClick = (imageName) => {
     setSelectedImageName(imageName);
-
-    // Remove border from previously selected image
     if (selectedImage) {
-      selectedImage.classList.remove('selected-image');
+      selectedImage.classList.remove("selected-image");
     }
-
-    // Add border to the newly selected image
-    const newSelectedImage = document.querySelector(`[data-image-name="${imageName}"]`);
+    const newSelectedImage = document.querySelector(
+      `[data-image-name="${imageName}"]`
+    );
     if (newSelectedImage) {
-      newSelectedImage.classList.add('selected-image');
+      newSelectedImage.classList.add("selected-image");
       setSelectedImage(newSelectedImage);
     }
   };
@@ -112,73 +90,50 @@ console.log(list)
 
   const handleUpload = () => {
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append("image", file);
+    axios
+      .post("https://eikon-api.onrender.com/imageUpload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-    axios.post('https://eikon-api.onrender.com/imageUpload', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then((response) => {
-      console.log(response.data);
-      // Handle success, e.g., show a success message
-    })
-    .catch((error) => {
-      console.error(error);
-      // Handle error, e.g., show an error message
-    });
-  };
-  const handleDeleteImage = async () => {
-    try {
-      if (!selectedImageName) {
-        // No selected image to delete
-        return;
-      }
-  
-      // Make a DELETE request to delete the selected image
-      await axios.delete(`https://eikon-api.onrender.com/imageUploads/${selectedImageName}`);
-  
-      // Update the image list state by removing the deleted image
-      setImageList((prevImageList) =>
-        prevImageList.filter((imageName) => imageName !== selectedImageName)
-      );
-  
-      // Clear the selected image and image name
-      setSelectedImageName('');
-      setSelectedImage(null);
-    } catch (error) {
-      console.error('Error making DELETE request:', error);
-      // Handle errors here.
-    }
-  };
-  ;
+  useEffect(() => {
+    handleGet();
+  }, []);
   return (
     <div className="container">
-    
       <div className="row">
         <div className="col-sm-6">
           <div className="btn-group">
-            {/* Button to trigger the GET request */}
             <button className="btn btn-primary m-1" onClick={handleGet}>
               GET
             </button>
-            {/* Button to trigger the GET request for images list */}
-            <button className="btn btn-primary m-1" onClick={handleGetImagesList}>
+            <button
+              className="btn btn-primary m-1"
+              onClick={handleGetImagesList}
+            >
               GET Images List
             </button>
-            {/* Button to open the confirmation modal for UPDATE */}
-            <button className="btn btn-success m-1" onClick={openConfirmationModal}>
+            <button
+              className="btn btn-success m-1"
+              onClick={openConfirmationModal}
+            >
               UPDATE
             </button>
-           
           </div>
         </div>
       </div>
       <br />
-      <div className="z-0" style={{ display: 'block', zIndex: 1 }}>
-      
+      <div className="z-0" style={{ display: "block", zIndex: 1 }}>
         <div>
-          {/* Input field for Title */}
           <label>Title:</label>
           <input
             className="form-control"
@@ -188,7 +143,6 @@ console.log(list)
           />
         </div>
         <div>
-          {/* Textarea for Description */}
           <label>Description:</label>
           <textarea
             className="form-control"
@@ -197,31 +151,19 @@ console.log(list)
           />
         </div>
         <div className="form-group">
-          {/* Input field for Image name */}
           <label>Image Name:</label>
-          <input 
+          <input
             className="form-control"
-            value={ selectedImageName} // Use selectedImageName instead of image
+            value={selectedImageName || imageNames}
             onChange={(e) => setSelectedImageName(e.target.value)}
           />
         </div>
         <div>
-      <input type="file" accept="image/*" onChange={handleFileChange} />
-      <button onClick={handleUpload}>Upload Image</button>
-    </div>
-    <div className="row">
-        <div className="col-sm-6">
-          <div className="btn-group">
-            {/* ... (your other buttons) */}
-            {/* Button to delete the selected image */}
-            <button className="btn btn-danger m-1" onClick={handleDeleteImage}>
-              DELETE Image
-            </button>
-          </div>
+          <input type="file" accept="image/*" onChange={handleFileChange} />
+          <button onClick={handleUpload}>Upload Image</button>
         </div>
-      </div>
+
         <div className="form-group">
-          {/* Textarea for Heading */}
           <label>Heading:</label>
           <textarea
             className="form-control"
@@ -259,47 +201,6 @@ console.log(list)
             </div>
           </div>
         </div>
-      </div>
-      <div>
-        {/* Confirmation modal */}
-        {showConfirmationModal && (
-          <div className="modal fade show" style={{ display: 'block' }}>
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content bg-warning">
-                <div className="modal-header">
-                  <h5 className="modal-title">Confirm Update</h5>
-                  <button
-                    type="button"
-                    className="close"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body">Are you sure you want to update?</div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowConfirmationModal(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => {
-                      setShowConfirmationModal(false);
-                      handleUpdate();
-                    }}
-                  >
-                    Confirm
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
