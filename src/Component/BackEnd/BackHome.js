@@ -15,7 +15,7 @@ const BackHome = ({setIsAuthenticated}) => {
 
     try {
       // const response = await axios.post(`https://eikon-api.onrender.com/loginId`, { email, password });
-      const response = await axios.post(`http://localhost:8080/loginId`, { email, password });
+      const response = await axios.post(`https://eikon-api.onrender.com/loginId`, { email, password });
       const data = response.data;
 
       if (data?.isValid === true) {
