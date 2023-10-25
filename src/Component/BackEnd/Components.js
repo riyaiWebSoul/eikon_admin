@@ -8,6 +8,7 @@ import BackPatientReviews from './BackPatientReviews';
 import BackHomePage from './BackHomePage';
 import ImageUpload from './ImageUpload';
 import BackContact from './BackContact';
+import HealingTouch from './HealingTouch';
 
 export const components = [
     {
@@ -46,6 +47,10 @@ export const components = [
         name:'Contact',
         component:BackContact
         },
+        {
+            name:'Healing Touch',
+            component:HealingTouch
+            },
     {
     name:'Image Upload',
     component:ImageUpload
