@@ -163,6 +163,14 @@ function BackServiceMapingEcommerce({ setModalState }) {
             <div className="row" key={index}>
               <div className="col-md-6">
                 <img className=" " src={`https://eikon-api.onrender.com/imageUploads/${item.Image}`} height={"300px"} />
+                <div>
+                  <label>Image name:</label>
+                  <textarea
+                    className="form-control"
+                    value={item.Image}
+                    onChange={handleImageChange}
+                  />
+                </div>
                 <div className="d-flex justify-content-start ">
                
                   <button
@@ -200,14 +208,7 @@ function BackServiceMapingEcommerce({ setModalState }) {
                     onChange={handleDescriptionSub2Change}
                   />
                 </div>
-                <div>
-                  <label>Image name:</label>
-                  <textarea
-                    className="form-control"
-                    value={item.Image}
-                    onChange={handleImageChange}
-                  />
-                </div>
+                
               </div>
             </div>
           );
