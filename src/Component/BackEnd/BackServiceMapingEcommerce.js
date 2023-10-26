@@ -2,19 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 function BackServiceMapingEcommerce({ setModalState }) {
-  const [responseData, setResponseData] = useState(null);
+
   const [mapdata, setMapData] = useState([]);
-  const [id, setId] = useState("");
   const [title, setTitle] = useState("");
+ 
   const [subTitle, setSubTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [descriptionSub1, setDescriptionSub1] = useState("");
-  const [descriptionSub2, setDescriptionSub2] = useState("");
-  const [imgurl, setImgurl] = useState("");
+ 
   const [imageNames, setImageNames] = useState([]);
   const [images, setImages] = useState([]);
 
-  const imgurlLink = `https://eikon-api.onrender.com/imageUploads/${imgurl}`;
 
   const fetchImageNames = () => {
     axios
@@ -32,7 +29,7 @@ function BackServiceMapingEcommerce({ setModalState }) {
         console.error("Error fetching data:", error);
       });
   };
-  
+
 
   const handleGet = async () => {
     try {
@@ -40,18 +37,18 @@ function BackServiceMapingEcommerce({ setModalState }) {
         `https://eikon-api.onrender.com/mapingEcommerce/650d7d0f12bb6287eb8740b1`
       );
       const data = response.data;
-      setResponseData(data);
+  
       setMapData(data?.MapingEcommerce.section2);
       setTitle(data.MapingEcommerce.title);
       setDescription(data.MapingEcommerce.description);
       setSubTitle(data.MapingEcommerce.section1.title);
-      setDescriptionSub1(data.MapingEcommerce.section2[0].description1);
-      setDescriptionSub2(data.MapingEcommerce.section2[0].description2);
-      setImgurl(data.MapingEcommerce.section2[0].Image);
+    
+     
     } catch (error) {
       console.error("Error making GET request:", error);
     }
   };
+
 
   const openConfirmationModal = async () => {
     setModalState((prevState) => ({
@@ -72,6 +69,8 @@ function BackServiceMapingEcommerce({ setModalState }) {
         section2: mapdata,
       };
 
+     
+
       const response = await axios.patch(
         `https://eikon-api.onrender.com/mapingEcommerce/650d7d0f12bb6287eb8740b1`,
         {
@@ -79,22 +78,24 @@ function BackServiceMapingEcommerce({ setModalState }) {
         }
       );
 
-      setResponseData(response.data);
+     
       setModalState((prevState) => ({
         ...prevState,
         showModal: false,
       }));
+      handleGet(); 
     } catch (error) {
       console.error("Error making PATCH request:", error);
     }
   };
+ 
 
   // Function to add new data
   const addNewData = () => {
     const newData = {
       description1: "",
       description2: "",
-      Image: "", // You can initialize with an empty string or a default image URL
+      Image: ""
     };
 
     setMapData([...mapdata, newData]);
@@ -108,7 +109,7 @@ function BackServiceMapingEcommerce({ setModalState }) {
   };
 
   useEffect(() => {
-    handleGet();
+    handleGet(); 
   }, []);
 
   return (
@@ -152,21 +153,28 @@ function BackServiceMapingEcommerce({ setModalState }) {
             updatedMapData[index].description2 = e.target.value;
             setMapData(updatedMapData);
           };
+          const handleImageChange = (e) => {
+            const updatedMapData = [...mapdata];
+            updatedMapData[index].Image = e.target.value;
+            setMapData(updatedMapData);
+          };
 
           return (
             <div className="row" key={index}>
-              <div className="">
-                <img className=" " src={imgurlLink} height={"300px"} />
-                <div className="d-flex justify-content-center  ">
+              <div className="col-md-6">
+                <img className=" " src={`https://eikon-api.onrender.com/imageUploads/${item.Image}`} height={"300px"} />
+                <div className="d-flex justify-content-start ">
+               
                   <button
-                    className="btn bg-success"
-                    onClick={() => fetchImageNames(index)}
+                    class="btn btn-info m-1  "
+                    onClick={fetchImageNames}
                   >
-                    Change
+                   Select the Image
                   </button>
+
                   {mapdata.length > 1 && (
                     <button
-                      className="btn btn-danger"
+                      className="btn btn-danger  m-1 "
                       onClick={() => deleteData(index)}
                     >
                       Delete
@@ -175,7 +183,7 @@ function BackServiceMapingEcommerce({ setModalState }) {
                 </div>
               </div>
 
-              <div className="col-md-8">
+              <div className="col-md-6">
                 <div className="form-group">
                   <label>descriptionSub1:</label>
                   <textarea
@@ -192,6 +200,14 @@ function BackServiceMapingEcommerce({ setModalState }) {
                     onChange={handleDescriptionSub2Change}
                   />
                 </div>
+                <div>
+                  <label>Image name:</label>
+                  <textarea
+                    className="form-control"
+                    value={item.Image}
+                    onChange={handleImageChange}
+                  />
+                </div>
               </div>
             </div>
           );
@@ -199,14 +215,32 @@ function BackServiceMapingEcommerce({ setModalState }) {
       </div>
 
       <div className="row justify-content-end">
-      <button className="btn btn-primary m-1" onClick={addNewData}>
+      <button className="btn btn-primary m-1 " onClick={handleGet}>Get Back</button>
+        <button className="btn btn-primary m-1" onClick={addNewData}>
           Add New Data
         </button>
-      
+
         <button className="btn btn-success m-1" onClick={openConfirmationModal}>
           Update
         </button>
-        
+      </div>
+      <div className="row">
+        {imageNames.map((imageName, index) => (
+          <div key={index} className="col-md-3 my-2">
+            <div className="card">
+              <img
+                src={images[index]}
+                alt={`Image ${index + 1}`}
+                className="card-img-top img-fluid"
+              />
+              <div className="card-body">
+                <h5 className="card-title">Image {index + 1}</h5>
+                <p className="card-text">{imageName}</p>
+                
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );
