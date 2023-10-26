@@ -220,6 +220,15 @@ function BackServiceMedical({setModalState}) {
               <div className="card-body">
                 <h5 className="card-title">Image {index + 1}</h5>
                 <p className="card-text">{imageName}</p>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(imageName);
+                    alert('Image name copied to clipboard');
+                  }}
+                  className="btn btn-primary"
+                >
+                 copy Name
+                </button>
                
               </div>
             </div>
