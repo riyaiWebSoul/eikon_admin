@@ -1,5 +1,7 @@
+// BackHomePage.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+ 
 
 function BackHomePage({ setModalState }) {
   const [responseData, setResponseData] = useState(null);
@@ -9,8 +11,10 @@ function BackHomePage({ setModalState }) {
   const [file, setFile] = useState(null);
   const [imageList, setImageList] = useState([]);
   const [selectedImageName, setSelectedImageName] = useState("");
-  const [imageNames,setImageNames]=useState('')
+  const [imageNames, setImageNames] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+
   const handleGet = async () => {
     try {
       const response = await axios.get(
@@ -22,7 +26,7 @@ function BackHomePage({ setModalState }) {
       setTitle(data.section.title);
       setDescription(data.section.description);
       setHeading(data.section.heading);
-      setImageNames(data.section.imageSrc[0])
+      setImageNames(data.section.imageSrc[0]);
     } catch (error) {
       console.error("Error making GET request:", error);
     }
@@ -41,6 +45,7 @@ function BackHomePage({ setModalState }) {
       console.error("Error making GET request:", error);
     }
   };
+
   const openConfirmationModal = async () => {
     setModalState((prevState) => ({
       ...prevState,
@@ -71,6 +76,7 @@ function BackHomePage({ setModalState }) {
       console.error("Error making PATCH request:", error);
     }
   };
+
   const handleImageClick = (imageName) => {
     setSelectedImageName(imageName);
     if (selectedImage) {
@@ -82,14 +88,22 @@ function BackHomePage({ setModalState }) {
     if (newSelectedImage) {
       newSelectedImage.classList.add("selected-image");
       setSelectedImage(newSelectedImage);
+      closePopup(); // Close the popup when an image is clicked
     }
   };
 
+  const openPopup = () => {
+    setIsPopupOpen(true);
+  };
 
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
 
   useEffect(() => {
     handleGet();
   }, []);
+
   return (
     <div className="container">
       <div className="d-flex justify-content-end">
@@ -97,12 +111,6 @@ function BackHomePage({ setModalState }) {
           <div className="btn-group">
             <button className="btn btn-primary m-1" onClick={handleGet}>
               GET
-            </button>
-            <button
-              className="btn btn-primary m-1"
-              onClick={handleGetImagesList}
-            >
-              GET Images List
             </button>
             <button
               className="btn btn-success m-1"
@@ -139,9 +147,10 @@ function BackHomePage({ setModalState }) {
             value={selectedImageName || imageNames}
             onChange={(e) => setSelectedImageName(e.target.value)}
           />
+          <button className="btn btn-primary m-1" onClick={handleGetImagesList}>
+            Select Image
+          </button>
         </div>
-      
-
         <div className="form-group">
           <label>Heading:</label>
           <textarea
@@ -150,15 +159,22 @@ function BackHomePage({ setModalState }) {
             onChange={(e) => setHeading(e.target.value)}
           />
         </div>
+
+
+
+
+
+
+
+
         <div className="container">
           <div className="row">
             <div className="col">
               <div className="form-group">
                 <label>Images:</label>
                 <div className="row">
-                  {/* Display the list of images */}
                   {imageList.map((item, index) => (
-                    <div key={index} className="col-12 col-md-2 ">
+                    <div key={index} className="col-12 col-md-2">
                       <div
                         className="card mb-2 imageListStyle"
                         onClick={() => handleImageClick(item)}
@@ -167,7 +183,7 @@ function BackHomePage({ setModalState }) {
                         <img
                           src={`https://eikon-api.onrender.com/imageUploads${item}`}
                           alt={`${index}`}
-                          className="card-img-top "
+                          className="card-img-top"
                         />
                         <div className="card-body">
                           {/* Add your content here */}
