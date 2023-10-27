@@ -77,9 +77,7 @@ function BackAbout({ setModalState }) {
     setMapData([...mapdata, newData]);
   };
 
-  const handleChange = (e) => {
-    setData((prevState) => ({ ...prevState, [e.target.name]: e.target.value }));
-  };
+ 
   useEffect(() => {
     handleGet()
   }, []);
@@ -150,7 +148,7 @@ function BackAbout({ setModalState }) {
 
             return (
               <div className="row" key={index}>
-                <div className="col-md-6 mt-5">
+                <div className="col-md-12 col-lg-6 col-sm-12 mt-5">
                   <img className="" src={`https://eikon-api.onrender.com/imageUploads/${item.Image}`} height="300px" />
                   <div>
                     <label>Image name:</label>
@@ -171,7 +169,7 @@ function BackAbout({ setModalState }) {
                     )}
                   </div>
                 </div>
-                <div className="col-md-6 mt-5">
+                <div className=" mt-5 col-md-12 col-lg-6 col-sm-12">
                   <div className="form-group">
                     <label>SubTitle:</label>
                     <textarea

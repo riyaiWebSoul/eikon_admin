@@ -67,14 +67,15 @@ const BackendDashboard = ({setIsAuthenticated}) => {
           </div>
 <div className='col-md-8 col-lg-10 col-sm-12 '>
 <div className='row m-2 ' >
-        <div className='col-lg-10 col-md-10 col-sm-10 col-xs-6'>
-          <h3 className='text-center '>Welcome to Eikon Admin Panel </h3>
-        </div>
-        <div className='col-lg-2 d-flex justify-content-end'>
+<div className='col-lg-12 d-flex justify-content-end'>
           <button className='btn btn-danger text-end ' onClick={handleLogout}>
             Logout
           </button>
         </div>
+        <div className='col-lg-12 col-md-10 col-sm-10 col-xs-6'>
+          <h3 className='text-center '>Eikon Admin Panel </h3>
+        </div>
+        
       </div>
       <div > <activeContent.component setModalState={setModalState}/> </div>
 
