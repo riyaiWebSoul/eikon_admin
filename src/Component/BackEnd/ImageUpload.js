@@ -64,23 +64,24 @@ const ImageUpload = () => {
 
   return (
     <div className='container'>
-      <h1 className='my-5 text-center'>Image</h1>
+      <h4 className='my-5 text-center'>Image's on Server</h4>
       <div className='my-5  '>
      <div className='row justify-content-end'><input type="file" onChange={e => setNewImage(e.target.files[0])} /></div> 
      <div className='row justify-content-end'>
       <button class="btn btn-success m-1  " onClick={handleImageUpload}>Upload Image</button></div>
       </div>
     
-      <div className="row">
+      <div className="">
+        <div className="row">
         {imageNames.map((imageName, index) => (
           <div key={index} className="col-md-3 my-2">
-            <div className="card">
+            <div className="card" style={{"width": "12rem"}}>
               <img
-                src={images[index]}
+                src={images[index]}  style={{"height": "10rem"}}
                 alt={`Image ${index + 1}`}
                 className="card-img-top img-fluid"
               />
-              <div className="card-body">
+              <div className="card-body text-center ">
                 <h5 className="card-title">Image {index + 1}</h5>
                 <p className="card-text">{imageName}</p>
                 <button
@@ -88,7 +89,7 @@ const ImageUpload = () => {
                     navigator.clipboard.writeText(imageName);
                     alert('Image name copied to clipboard');
                   }}
-                  className="btn btn-primary"
+                  className="btn btn-primary my-2"
                 >
                  Copy Name
                 </button>
@@ -97,6 +98,8 @@ const ImageUpload = () => {
             </div>
           </div>
         ))}
+        </div>
+       
       </div>
       {showOptionsModal && (
         <div className="modal" style={{ display: 'block' }}>

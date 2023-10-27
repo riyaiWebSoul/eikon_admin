@@ -73,7 +73,7 @@ const BackendDashboard = ({setIsAuthenticated}) => {
           </button>
         </div>
         <div className='col-lg-12 col-md-10 col-sm-10 col-xs-6'>
-          <h3 className='text-center '>Eikon Admin Panel </h3>
+          <h1 className='text-center '>Eikon Admin Panel </h1>
         </div>
         
       </div>
