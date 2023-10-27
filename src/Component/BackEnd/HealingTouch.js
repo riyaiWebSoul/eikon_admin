@@ -64,6 +64,9 @@ function HealingTouch({ setModalState }) {
       }));
     }
   };
+  const handleChangeImage=(e)=>{
+    
+  }
 
   return (
     <div className="container mt-2">
@@ -82,6 +85,11 @@ function HealingTouch({ setModalState }) {
         {healing && healing.map((item, index) => (
           <div className="form-group" key={index}>
             <label>{item.title}:</label>
+            <img src={`https://eikon-api.onrender.com/imageUploads/${item.image}`} width="30px"/>
+            <input className="form-control"
+              value={item.image}
+              name={`descriptionSub${index}`}
+              onChange={(e) => handleChangeImage(e)} />
             <textarea
               className="form-control"
               value={item.count}
