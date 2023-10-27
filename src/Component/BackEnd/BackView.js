@@ -43,8 +43,8 @@ function BackView({ setModalState }) {
   };
 
   return (
-    <div className="container">
-      <h2 className="text-center p-5">Enquiry List</h2>
+    <div className="container mt-5">
+      
       {responseData.length > 0 ? ( // Check if there is data
         <div>
           <table className="table mt-5">

@@ -46,16 +46,7 @@ const BackendDashboard = ({setIsAuthenticated}) => {
 
   return (
     <div className='' >
-      <div className='d-flex justify-content-between m-2'>
-        <div>
-          <h3 className='text-center '>Welcome to Eikon BackEnd </h3>
-        </div>
-        <div>
-          <button className='btn btn-danger' onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-      </div>
+      
       {isAdminLoggedIn ? (
         <div className='' style={{'overflow':'hidden'}}>
  <div className='row'>
@@ -74,8 +65,20 @@ const BackendDashboard = ({setIsAuthenticated}) => {
                 
                 })}
           </div>
+<div className='col-md-8 col-lg-10 col-sm-12 '>
+<div className='row m-2 ' >
+        <div className='col-lg-10 col-md-10 col-sm-10 col-xs-6'>
+          <h3 className='text-center '>Welcome to Eikon Admin Panel </h3>
+        </div>
+        <div className='col-lg-2 d-flex justify-content-end'>
+          <button className='btn btn-danger text-end ' onClick={handleLogout}>
+            Logout
+          </button>
+        </div>
+      </div>
+      <div > <activeContent.component setModalState={setModalState}/> </div>
 
-          <div className='col-md-8 col-lg-10 col-sm-12'> <activeContent.component setModalState={setModalState}/> </div>
+</div>
         </div>
         </div>
        
