@@ -54,7 +54,9 @@ function BackView({ setModalState }) {
                 <th className="text-center">Name</th>
                 <th className="text-center">Email</th>
                 <th className="text-center">Phone</th>
+                <th className="text-center">Comments</th>
                 <th className="text-center">Delete</th>
+
               </tr>
             </thead>
             <tbody>
@@ -64,6 +66,8 @@ function BackView({ setModalState }) {
                   <td className="text-center">{entry.name}</td>
                   <td className="text-center">{entry.email}</td>
                   <td className="text-center">{entry.phone}</td>
+                  <td className="text-center">{entry.subject}</td>
+
                   <td className="text-center">
                     <button className="btn btn-danger text-center" onClick={() => openConfirmationModal(index)}>
                       Delete
