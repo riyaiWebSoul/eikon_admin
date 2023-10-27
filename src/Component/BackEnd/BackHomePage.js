@@ -21,7 +21,7 @@ function BackHomePage({ setModalState }) {
         "https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba"
       );
       const data = response.data;
-      console.log(data);
+  
       setResponseData(data);
       setTitle(data.section.title);
       setDescription(data.section.description);
@@ -38,7 +38,7 @@ function BackHomePage({ setModalState }) {
         "https://eikon-api.onrender.com/imageUpload"
       );
       const list = imagesListResponse.data;
-      console.log(list);
+    
 
       setImageList(list.images);
     } catch (error) {

@@ -45,7 +45,7 @@ const BackendDashboard = ({setIsAuthenticated}) => {
   }
 
   return (
-    <div >
+    <div className='' >
       <div className='d-flex justify-content-between m-2'>
         <div>
           <h3 className='text-center '>Welcome to Eikon BackEnd </h3>
@@ -57,18 +57,28 @@ const BackendDashboard = ({setIsAuthenticated}) => {
         </div>
       </div>
       {isAdminLoggedIn ? (
-        <div className=''>
-          <div className='bg-secondary justify-content-around p-3'>
+        <div className='' style={{'overflow':'hidden'}}>
+ <div className='row'>
+          <div className='bg-secondary  p-3 col-md-2' 
+    >
             {components &&
-              components.map((item) => (
-                <button className={`btn ${item.name === activeContent?.name ? 'text-dark bg-light' : 'text-light'}`} key={item.name} onClick={() => handleContentSelect(item)}>
+              components.map((item) => {
+                return(
+                  <ul className='  ' >
+ <li className={`btn ${item.name === activeContent?.name ? 'text-dark bg-light text-center' : 'text-light'}`} key={item.name} onClick={() => handleContentSelect(item)} style={{"text-align": "inherit"}}>
                   {item.name}
-                </button>
-              ))}
+                </li>
+                  </ul>
+                 
+                )
+                
+                })}
           </div>
 
-          <div> <activeContent.component setModalState={setModalState}/> </div>
+          <div className='col-md-10'> <activeContent.component setModalState={setModalState}/> </div>
         </div>
+        </div>
+       
       ) : (
         <p>Please log in as an admin to access the dashboard.</p>
       )}

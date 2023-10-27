@@ -83,7 +83,7 @@ function BackAbout({ setModalState }) {
   useEffect(() => {
     handleGet()
   }, []);
-console.log(mapdata)
+ 
   return (
     <div className="container mt-2">
       <div style={{ display: 'block', zIndex: 1 }}>
