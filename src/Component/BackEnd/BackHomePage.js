@@ -161,12 +161,6 @@ function BackHomePage({ setModalState }) {
         </div>
 
 
-
-
-
-
-
-
         <div className="container">
           <div className="row">
             <div className="col">

@@ -18,7 +18,7 @@ export const components = [
   },
 
   {
-    name: "Booked Appointments List",
+    name: "Appointments",
     component: BackAppointmentSuccess,
   },
   {
@@ -46,7 +46,7 @@ export const components = [
     component: ImageUpload,
   },
   {
-    name: "Maping Ecommerce",
+    name: "Maping Service",
     component: BackServiceMapingEcommerce,
   },
   {
