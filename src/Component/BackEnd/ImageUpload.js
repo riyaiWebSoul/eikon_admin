@@ -28,7 +28,7 @@ const ImageUpload = () => {
     const formData = new FormData();
     formData.append('image', newImage);
 
-    axios.post('https://eikon-api.onrender.com/imageUploads', formData)
+    axios.post('https://eikon-api.onrender.com/imageUploads',formData)
       .then(response => {
         // Handle success, e.g., show a success message and update the image list
         fetchImageNames();

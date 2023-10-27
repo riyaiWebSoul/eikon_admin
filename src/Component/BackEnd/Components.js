@@ -9,6 +9,7 @@ import BackHomePage from "./BackHomePage";
 import ImageUpload from "./ImageUpload";
 import BackContact from "./BackContact";
 import HealingTouch from "./HealingTouch";
+import Portfolio from "./Portfolio";
 
 export const components = [
   {
@@ -56,5 +57,9 @@ export const components = [
   {
     name: "Patient Review",
     component: BackPatientReviews,
+  },
+  {
+    name: "Portfolio",
+    component: Portfolio,
   },
 ];
