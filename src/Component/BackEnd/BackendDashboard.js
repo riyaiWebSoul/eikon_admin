@@ -59,7 +59,7 @@ const BackendDashboard = ({setIsAuthenticated}) => {
       {isAdminLoggedIn ? (
         <div className='' style={{'overflow':'hidden'}}>
  <div className='row'>
-          <div className='bg-secondary  p-3 col-md-2' 
+          <div className='bg-secondary  p-3 col-md-4 col-lg-2 col-sm-12' 
     >
             {components &&
               components.map((item) => {
@@ -75,7 +75,7 @@ const BackendDashboard = ({setIsAuthenticated}) => {
                 })}
           </div>
 
-          <div className='col-md-10'> <activeContent.component setModalState={setModalState}/> </div>
+          <div className='col-md-8 col-lg-10 col-sm-12'> <activeContent.component setModalState={setModalState}/> </div>
         </div>
         </div>
        

@@ -90,9 +90,9 @@ const ImageUpload = () => {
                   }}
                   className="btn btn-primary"
                 >
-                 copy Name
+                 Copy Name
                 </button>
-                <button  className="btn btn-danger" onClick={() => handleImageDelete(imageName)}>Delete</button>
+                <button  className="btn btn-danger mx-2" onClick={() => handleImageDelete(imageName)}>Delete</button>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@ const ImageUpload = () => {
           <div className="modal-dialog" style={{ margin: 'auto' }}>
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Image Options</h5>
+                <h5 className="modal-title">Are you Sure to delete Image</h5>
                 <button
                   type="button"
                   className="close"
@@ -113,7 +113,7 @@ const ImageUpload = () => {
                 </button>
               </div>
               <div className="modal-body">
-                <p>{selectedImage}</p>
+                <p>Image Name     :-  {selectedImage}</p>
                 <button onClick={confirmDeleteImage} className="btn btn-danger mx-2">Delete Image</button>
                 <button
                   onClick={() => {
