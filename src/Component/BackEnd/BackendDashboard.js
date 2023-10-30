@@ -50,7 +50,7 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
                 <div className="user-panel text-light text-center">
                   <div className="thumb  ">
                     <img
-                      src={`https://eikon-api.onrender.com/imageUploads/1698404248214-profile.jpg`}
+                      src={`https://eikon-api.onrender.com/imageUploads/1698638066677-profile.jpg`}
                       alt="Profile"
                       class="img-circle"
                     />

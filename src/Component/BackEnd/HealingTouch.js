@@ -3,7 +3,8 @@ import axios from 'axios';
 
 function HealingTouch({ setModalState }) {
   const [data, setData] = useState({});
-  const [healing, setHealing] = useState([]); // Initialize healing state with an empty array
+  const [healing, setHealing] = useState([]);
+  const [images, setImages] = useState([])
 
   const handleGet = async () => {
     try {
