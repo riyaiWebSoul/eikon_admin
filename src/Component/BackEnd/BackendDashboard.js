@@ -62,7 +62,7 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
               {components &&
                 components.map((item) => {
                   return (
-                    <ul className=" p-1 ml-2">
+                    <ul className="  p-1 ml-2 ">
                       <li
                         className={`btn ${
                           item.name === activeContent?.name

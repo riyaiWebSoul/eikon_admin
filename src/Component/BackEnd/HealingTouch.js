@@ -4,7 +4,6 @@ import axios from 'axios';
 function HealingTouch({ setModalState }) {
   const [data, setData] = useState({});
   const [healing, setHealing] = useState([]);
-  const [images, setImages] = useState([])
 
   const handleGet = async () => {
     try {
@@ -65,10 +64,18 @@ function HealingTouch({ setModalState }) {
       }));
     }
   };
-  const handleChangeImage=(e)=>{
-    
-  }
-
+  
+  const handleChangeImage = (e) => {
+    const { name, value } = e.target;
+    if (name.startsWith('descriptionImage')) {
+      const index = parseInt(name.replace('descriptionImage', ''), 10);
+      setHealing((prevHealing) => [
+        ...prevHealing.slice(0, index),
+        { ...prevHealing[index], image: value },
+        ...prevHealing.slice(index + 1),
+      ]);
+    }
+  };
   return (
     <div className="container mt-2">
       <div className="" style={{ display: 'block', zIndex: 1 }}>
@@ -82,21 +89,31 @@ function HealingTouch({ setModalState }) {
             onChange={(e) => handleChange(e)}
           />
         </div>
-
+  
         {healing && healing.map((item, index) => (
           <div className="form-group" key={index}>
-            <label>{item.title}:</label>
-            <img src={`https://eikon-api.onrender.com/imageUploads/${item.image}`} width="30px"/>
-            <input className="form-control"
-              value={item.image}
-              name={`descriptionSub${index}`}
-              onChange={(e) => handleChangeImage(e)} />
-            <textarea
-              className="form-control"
-              value={item.count}
-              name={`descriptionSub${index}`}
-              onChange={(e) => handleChange(e)}
-            />
+            <div className='d-flex justify-content-around'>
+              <label>{item.title}:</label>
+              <img src={`https://eikon-api.onrender.com/imageUploads/${item.image}`} width="100px" alt={item.title} />
+              <div>
+                <label>Image Name:</label>
+                <input
+                  className="form-control"
+                  value={item.image}
+                  name={`descriptionImage${index}`}
+                  onChange={(e) => handleChangeImage(e)}
+                />
+              </div>
+              <div>
+                <label>Count:</label>
+                <input
+                  className="form-control"
+                  value={item.count}
+                  name={`descriptionSub${index}`}
+                  onChange={(e) => handleChange(e)}
+                />
+              </div>
+            </div>
           </div>
         ))}
       </div>
