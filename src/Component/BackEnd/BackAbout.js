@@ -86,7 +86,7 @@ function BackAbout({ setModalState }) {
     <div className="container mt-2">
       <div style={{ display: 'block', zIndex: 1 }}>
       <div>
-        <label className="mt-5">Title:</label>
+        <label className="">Title:</label>
         <input
           className="form-control"
           type="text"
@@ -102,7 +102,7 @@ function BackAbout({ setModalState }) {
           onChange={(e) => setData({ ...data, description: e.target.value })}
         />
       </div>
-        <div className="mt-5">
+        <div className="mt-1">
           {mapdata.map((item, index) => {
             const handleDescriptionSubChange = (e) => {
               const updatedMapData = [...mapdata];
@@ -148,7 +148,7 @@ function BackAbout({ setModalState }) {
 
             return (
               <div className="row" key={index}>
-                <div className="col-md-12 col-lg-6 col-sm-12 mt-5">
+                <div className="col-md-12 col-lg-6 col-sm-12">
                   <img className="" src={`https://eikon-api.onrender.com/imageUploads/${item.Image}`} height="300px" />
                   <div>
                     <label>Image name:</label>
@@ -169,7 +169,7 @@ function BackAbout({ setModalState }) {
                     )}
                   </div>
                 </div>
-                <div className=" mt-5 col-md-12 col-lg-6 col-sm-12">
+                <div className="  col-md-12 col-lg-6 col-sm-12">
                   <div className="form-group">
                     <label>SubTitle:</label>
                     <textarea

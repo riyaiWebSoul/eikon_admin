@@ -44,8 +44,8 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
     <div className="">
       {isAdminLoggedIn ? (
         <div className="" style={{ overflow: "hidden" }}>
-          <div className="row">
-            <div className="bg-secondary  p-3 col-md-4 col-lg-2 col-sm-12">
+          <div className="row" style={{"height": "100vh","overflow": "auto"}}>
+            <div className="bg-secondary    col-md-4 col-lg-2 col-sm-12" > 
               <div className="m-3  border-bottom   border-5 border-light">
                 <div className="user-panel text-light text-center">
                   <div className="thumb  ">
@@ -62,16 +62,16 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
               {components &&
                 components.map((item) => {
                   return (
-                    <ul className="  ">
+                    <ul className=" p-1 ml-2">
                       <li
                         className={`btn ${
                           item.name === activeContent?.name
-                            ? "text-dark bg-light  "
-                            : "text-light"
-                        }`}
+                            ? "text-dark bg-light m-0 text-center "
+                            : "text-light  m-0 text-center "
+                        }`} 
                         key={item.name}
                         onClick={() => handleContentSelect(item)}
-                        style={{ "text-align": "inherit" }}
+                        style={{ "text-align": "inherit" ,"width": "-webkit-fill-available"}}
                       >
                         {item.name}
                       </li>
