@@ -92,8 +92,9 @@ function HealingTouch({ setModalState }) {
   
         {healing && healing.map((item, index) => (
           <div className="form-group" key={index}>
+             <label>{item.title}:</label>
             <div className='d-flex justify-content-around'>
-              <label>{item.title}:</label>
+             
               <img src={`https://eikon-api.onrender.com/imageUploads/${item.image}`} width="100px" alt={item.title} />
               <div>
                 <label>Image Name:</label>

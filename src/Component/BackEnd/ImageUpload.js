@@ -44,7 +44,7 @@ const ImageUpload = () => {
     setShowOptionsModal(true); // Show the modal
   }
 
-  const confirmDeleteImage = () => {
+  const   confirmDeleteImage = () => {
     if (selectedImage) {
       const deleteUrl = `https://eikon-api.onrender.com/api/deleteImage/${selectedImage}`;
       console.log('Delete URL:', deleteUrl);
@@ -66,7 +66,8 @@ const ImageUpload = () => {
     <div className='container'>
       <h4 className='my-5 text-center'>Image's on Server</h4>
       <div className='my-5  '>
-     <div className='row justify-content-end'><input type="file" onChange={e => setNewImage(e.target.files[0])} /></div> 
+     <div className='row justify-content-end'>
+      <input type="file" onChange={e => setNewImage(e.target.files[0])} /></div> 
      <div className='row justify-content-end'>
       <button class="btn btn-success m-1  " onClick={handleImageUpload}>Upload Image</button></div>
       </div>

@@ -10,8 +10,13 @@ import ImageUpload from "./ImageUpload";
 import BackContact from "./BackContact";
 import HealingTouch from "./HealingTouch";
 import Portfolio from "./Portfolio";
+import Profile from "./Profile";
 
 export const components = [
+  {
+    name: "Profile",
+    component: Profile,
+  },
   {
     name: "About us",
     component: BackAbout,
@@ -62,4 +67,5 @@ export const components = [
     name: "Portfolio",
     component: Portfolio,
   },
+
 ];

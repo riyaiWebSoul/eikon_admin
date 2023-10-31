@@ -2,12 +2,30 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { components } from "./Components";
 import ConfirmationModal from "./ConfirmationModal";
-
+import axios from "axios";
 const BackendDashboard = ({ setIsAuthenticated }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState(false);
   const [activeContent, setActiveContent] = useState(null);
+  const [iconImages, setIconImages] = useState();
+  const[adminName,setAdminName]=useState('');
+
+  const handleGet = async () => {
+    try {
+      const response = await axios.get(
+        "https://eikon-api.onrender.com/loginId/651bcc3e0bbb61b10b8f865d"
+      );
+      setAdminName(response.data.email)
+      setIconImages(response.data.image);
+    } catch (error) {
+      console.error("Error making GET request:", error);
+    }
+  };
+
+
+
+
   const setIntialStateModal = () =>
     setModalState((prevState) => ({ ...prevState, showModal: false }));
   const [modalState, setModalState] = useState({
@@ -17,7 +35,9 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
   });
 
   useEffect(() => {
+    handleGet()
     setActiveContent(components[0]);
+    
   }, []);
 
   useEffect(() => {
@@ -25,7 +45,7 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
       const isAdminLoggedIn = true;
       setIsAdminLoggedIn(isAdminLoggedIn);
     };
-
+    handleGet()
     checkAdminLoginStatus();
   }, [location]);
 
@@ -34,12 +54,10 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
   };
 
   const handleLogout = () => {
-    // Implement your logout logic here
-    // For now, just navigate to "/backHome" as an example
     setIsAuthenticated(false);
     navigate("/");
   };
-
+ 
   return (
     <div className="">
       {isAdminLoggedIn ? (
@@ -49,13 +67,11 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
               <div className="m-3  border-bottom   border-5 border-light">
                 <div className="user-panel text-light text-center">
                   <div className="thumb  ">
-                    <img
-                      src={`https://eikon-api.onrender.com/imageUploads/1698638066677-profile.jpg`}
-                      alt="Profile"
-                      class="img-circle"
-                    />
+                  <button className="btn bg-dark text-light p-0">
+                    <img  class="img-circle" src={`https://eikon-api.onrender.com/imageUploads/${iconImages}`} width={"100px"}  alt="Profile"/> </button>  
                   </div>       
-                    <p className="">Admin Name</p>
+                    <p className="">{adminName}</p>
+                   
                   <div class="clearfix"></div>
                 </div>
               </div>
@@ -66,7 +82,7 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
                       <li
                         className={`btn ${
                           item.name === activeContent?.name
-                            ? "text-dark bg-light m-0 text-center "
+                            ? "text-dark text-light bg-light m-0 text-center "
                             : "text-light  m-0 text-center "
                         }`} 
                         key={item.name}
