@@ -60,7 +60,7 @@ const BackHome = ({setIsAuthenticated}) => {
               />
             </Form.Group>
 
-            <Button variant="primary" type="submit" className="mt-3">
+            <Button variant="primary" type="submit" className="mt-3" >
               Login
             </Button>
           </Form>

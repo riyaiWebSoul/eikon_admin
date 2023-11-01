@@ -64,7 +64,7 @@ function HealingTouch({ setModalState }) {
       }));
     }
   };
-  
+
   const handleChangeImage = (e) => {
     const { name, value } = e.target;
     if (name.startsWith('descriptionImage')) {
@@ -76,6 +76,26 @@ function HealingTouch({ setModalState }) {
       ]);
     }
   };
+
+  const handleImageUpload = (newImageName, file) => {
+    const formData = new FormData();
+    const index = healing.findIndex((item) => item.image === newImageName);
+  
+    if (index !== -1) {
+      formData.append('image', file, newImageName); // Use the selected image and its name
+      axios
+        .patch(`https://eikon-api.onrender.com/imageUpdate/${newImageName}`, formData)
+        .then((response) => {
+          // Handle the response as needed
+          console.log('Image updated successfully.');
+          handleGet(); // Refresh the data after updating the image
+        })
+        .catch((error) => {
+          console.error('Error uploading image:', error);
+        });
+    }
+  };
+
   return (
     <div className="container mt-2">
       <div className="" style={{ display: 'block', zIndex: 1 }}>
@@ -89,34 +109,39 @@ function HealingTouch({ setModalState }) {
             onChange={(e) => handleChange(e)}
           />
         </div>
-  
-        {healing && healing.map((item, index) => (
-          <div className="form-group" key={index}>
-             <label>{item.title}:</label>
-            <div className='d-flex justify-content-around'>
-             
-              <img src={`https://eikon-api.onrender.com/imageUploads/${item.image}`} width="100px" alt={item.title} />
-              <div>
-                <label>Image Name:</label>
-                <input
-                  className="form-control"
-                  value={item.image}
-                  name={`descriptionImage${index}`}
-                  onChange={(e) => handleChangeImage(e)}
-                />
-              </div>
-              <div>
-                <label>Count:</label>
-                <input
-                  className="form-control"
-                  value={item.count}
-                  name={`descriptionSub${index}`}
-                  onChange={(e) => handleChange(e)}
-                />
+
+        {healing && healing.map((item, index) => {
+          return (
+            <div className="form-group" key={index}>
+              <label>{item.title}:</label>
+              <div className='d-flex justify-content-around'>
+                <img src={`https://eikon-api.onrender.com/imageUploads/${item.image}`} width="100px" alt={item.title} />
+                <div>
+                  <label>Image Name:</label>
+                  <input
+                    className="form-control"
+                    value={item.image}
+                    name={`descriptionImage${index}`}
+                    onChange={(e) => handleChangeImage(e)}
+                  />
+                  <input type="file" onChange={(e) => handleImageUpload(item.image, e.target.files[0])} />
+                  <button onClick={handleImageUpload()}>
+                    Update Image
+                  </button>
+                </div>
+                <div>
+                  <label>Count:</label>
+                  <input
+                    className="form-control"
+                    value={item.count}
+                    name={`descriptionSub${index}`}
+                    onChange={(e) => handleChange(e)}
+                  />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
       <div>
         <div className="row justify-content-end">

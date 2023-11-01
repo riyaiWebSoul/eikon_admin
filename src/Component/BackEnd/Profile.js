@@ -6,7 +6,6 @@ function Profile({ setModalState }) {
   const [email, setEmail] = useState("");
   const [newImage, setNewImage] = useState(null);
   const [password, setPassword] = useState("");
-const[newImageName,setNewImageName]=useState('')
   const [profilePic, setProfilePic] = useState([]);
 
   const handleGet = async () => {
@@ -39,14 +38,15 @@ const[newImageName,setNewImageName]=useState('')
       handleGet();
   }
   
-  
 
   const openConfirmationModal = async () => {
     setModalState((prevState) => ({
       ...prevState,
       showModal: true,
-      handleUpdate: handleUpdate, // Add this line
+      handleUpdate: handleUpdate,
+       // Add this line
     }));
+    handleImageUpload()
   };
 
   const handleUpdate = async () => {
@@ -110,9 +110,9 @@ const[newImageName,setNewImageName]=useState('')
           onChange={(e) => setProfilePic(e.target.value)}
         />
         <input type="file" onChange={e => setNewImage(e.target.files[0])} />
-        <button onClick={handleImageUpload}> Update Image</button>
+        <button className="btn btn-success m-1" onClick={openConfirmationModal}> Update Image</button>
       </div>
-<button onClick={handleGet}>Get</button>
+ 
       <div className="row justify-content-end">
         <button className="btn btn-success m-1" onClick={openConfirmationModal}>
           Update

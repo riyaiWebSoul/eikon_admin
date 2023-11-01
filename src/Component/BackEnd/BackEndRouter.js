@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import BackHome from './BackHome';
 import BackendDashboard from './BackendDashboard';
-import Profile from './Profile';
+ 
 
 export default function BackEndRouter() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
@@ -14,9 +14,7 @@ export default function BackEndRouter() {
   return (
     <div>
       <Routes>
-        <Route  path="*" element={<BackHome setIsAuthenticated={setIsAuthenticated} />}/>
-        {isAuthenticated && <Route path="/backEndDashboard" element={<BackendDashboard setIsAuthenticated={setIsAuthenticated}/>} />}
-       
+      {isAuthenticated ? <Route path="/backEndDashboard" element={<BackendDashboard setIsAuthenticated={setIsAuthenticated}/>} />: <Route  path="*"  element={<BackHome setIsAuthenticated={setIsAuthenticated} />}/>}
       </Routes>
     </div>
   );

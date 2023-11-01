@@ -34,20 +34,18 @@ const BackendDashboard = ({ setIsAuthenticated }) => {
     setShowConfirmationModal: setIntialStateModal,
   });
 
-  useEffect(() => {
-    handleGet()
-    setActiveContent(components[0]);
-    
-  }, []);
+  
 
   useEffect(() => {
     const checkAdminLoginStatus = () => {
       const isAdminLoggedIn = true;
       setIsAdminLoggedIn(isAdminLoggedIn);
+    setActiveContent(components[0]);
+
     };
     handleGet()
     checkAdminLoginStatus();
-  }, [location]);
+  },[]);
 
   const handleContentSelect = (contentName) => {
     setActiveContent(contentName);
