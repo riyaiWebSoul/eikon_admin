@@ -1,7 +1,5 @@
-// BackHomePage.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
- 
 
 function BackHomePage({ setModalState }) {
   const [responseData, setResponseData] = useState(null);
@@ -14,6 +12,8 @@ function BackHomePage({ setModalState }) {
   const [imageNames, setImageNames] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [newImage, setNewImage] = useState(null);
+ 
 
   const handleGet = async () => {
     try {
@@ -21,7 +21,7 @@ function BackHomePage({ setModalState }) {
         "https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba"
       );
       const data = response.data;
-  
+
       setResponseData(data);
       setTitle(data.section.title);
       setDescription(data.section.description);
@@ -32,19 +32,23 @@ function BackHomePage({ setModalState }) {
     }
   };
 
-  const handleGetImagesList = async () => {
-    try {
-      const imagesListResponse = await axios.get(
-        "https://eikon-api.onrender.com/imageUpload"
-      );
-      const list = imagesListResponse.data;
-    
 
-      setImageList(list.images);
-    } catch (error) {
-      console.error("Error making GET request:", error);
-    }
-  };
+  const handleImageUpload = () => {
+    const formData = new FormData();
+    formData.append('image', newImage, imageNames); // Use the current image name
+  
+    axios.patch(`https://eikon-api.onrender.com/imageUpdate/${imageNames}`, formData)
+      .then(response => {
+        setNewImage(response.data.formData); // Set the new image name to state
+      })
+      
+      .catch(error => {
+        console.error('Error uploading image:', error);
+      });
+      handleGet();
+      return(alert('your image is changed'))
+  }
+  
 
   const openConfirmationModal = async () => {
     setModalState((prevState) => ({
@@ -60,7 +64,7 @@ function BackHomePage({ setModalState }) {
         "https://eikon-api.onrender.com/home/650d4595f2c62afdc75b54ba",
         {
           section: {
-            imageSrc: selectedImageName,
+            imageSrc: imageNames,
             title: title,
             heading: heading,
             description: description,
@@ -77,29 +81,11 @@ function BackHomePage({ setModalState }) {
     }
   };
 
-  const handleImageClick = (imageName) => {
-    setSelectedImageName(imageName);
-    if (selectedImage) {
-      selectedImage.classList.remove("selected-image");
-    }
-    const newSelectedImage = document.querySelector(
-      `[data-image-name="${imageName}"]`
-    );
-    if (newSelectedImage) {
-      newSelectedImage.classList.add("selected-image");
-      setSelectedImage(newSelectedImage);
-      closePopup(); // Close the popup when an image is clicked
-    }
-  };
+ 
 
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
+   
 
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
-
+  
   useEffect(() => {
     handleGet();
   }, []);
@@ -112,10 +98,7 @@ function BackHomePage({ setModalState }) {
             <button className="btn btn-primary m-1" onClick={handleGet}>
               GET
             </button>
-            <button
-              className="btn btn-success m-1"
-              onClick={openConfirmationModal}
-            >
+            <button className="btn btn-success m-1" onClick={openConfirmationModal}>
               UPDATE
             </button>
           </div>
@@ -123,6 +106,22 @@ function BackHomePage({ setModalState }) {
       </div>
       <br />
       <div className="z-0" style={{ display: "block", zIndex: 1 }}>
+       
+        <div className="row mt-3">
+        <div className=" col-md-6 ">
+          <img src={`https://eikon-api.onrender.com/imageUploads/${imageNames}`} width={"100px"} />
+          <label>Image Name:</label>
+          <input
+            className="form-control"
+            value={imageNames}
+            onChange={(e) => setImageNames(e.target.value)}
+          />
+            <input type="file" onChange={e => setNewImage(e.target.files[0])} />
+          <button className="btn btn-success m-1" onClick={handleImageUpload}>
+            Update Image
+          </button>
+        </div>
+        <div className="col-md-6 ">
         <div>
           <label>Title:</label>
           <input
@@ -133,6 +132,14 @@ function BackHomePage({ setModalState }) {
           />
         </div>
         <div>
+          <label>Heading:</label>
+          <textarea
+            className="form-control"
+            value={heading}
+            onChange={(e) => setHeading(e.target.value)}
+          />
+          </div>
+        <div>
           <label>Description:</label>
           <textarea
             className="form-control"
@@ -140,56 +147,12 @@ function BackHomePage({ setModalState }) {
             onChange={(e) => setDescription(e.target.value)}
           />
         </div>
-        <div className="form-group">
-          <label>Image Name:</label>
-          <input
-            className="form-control"
-            value={selectedImageName || imageNames}
-            onChange={(e) => setSelectedImageName(e.target.value)}
-          />
-          <button className="btn btn-primary m-1" onClick={handleGetImagesList}>
-            Select Image
-          </button>
+         
         </div>
-        <div className="form-group">
-          <label>Heading:</label>
-          <textarea
-            className="form-control"
-            value={heading}
-            onChange={(e) => setHeading(e.target.value)}
-          />
         </div>
+      
 
-
-        <div className="container">
-          <div className="row">
-            <div className="col">
-              <div className="form-group">
-                <label>Images:</label>
-                <div className="row">
-                  {imageList.map((item, index) => (
-                    <div key={index} className="col-12 col-md-2">
-                      <div
-                        className="card mb-2 imageListStyle"
-                        onClick={() => handleImageClick(item)}
-                        data-image-name={item} // Add data-image-name attribute
-                      >
-                        <img
-                          src={`https://eikon-api.onrender.com/imageUploads${item}`}
-                          alt={`${index}`}
-                          className="card-img-top"
-                        />
-                        <div className="card-body">
-                          {/* Add your content here */}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      
       </div>
     </div>
   );

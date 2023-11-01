@@ -88,12 +88,15 @@ function HealingTouch({ setModalState }) {
         .then((response) => {
           // Handle the response as needed
           console.log('Image updated successfully.');
-          handleGet(); // Refresh the data after updating the image
+            return(alert('your images was update'))
+           // Refresh the data after updating the image
         })
-        .catch((error) => {
+        .catch((error) => { 
           console.error('Error uploading image:', error);
         });
     }
+    handleGet();
+  
   };
 
   return (
@@ -124,10 +127,8 @@ function HealingTouch({ setModalState }) {
                     name={`descriptionImage${index}`}
                     onChange={(e) => handleChangeImage(e)}
                   />
-                  <input type="file" onChange={(e) => handleImageUpload(item.image, e.target.files[0])} />
-                  <button onClick={handleImageUpload()}>
-                    Update Image
-                  </button>
+                  <input type="file"  onChange={(e) => handleImageUpload(item.image, e.target.files[0])} />
+                  
                 </div>
                 <div>
                   <label>Count:</label>
